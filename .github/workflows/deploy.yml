@@ -39,3 +39,4 @@ jobs:
             --store=$SHOPIFY_STORE \
             --password=$SHOPIFY_PASSWORD \
             --live
+            --allow-live
