@@ -27,8 +27,7 @@ jobs:
           shopify theme push \
             --store=$SHOPIFY_STORE \
             --password=$SHOPIFY_PASSWORD \
-            --theme=$SHOPIFY_THEME_ID \
-            --no-interaction
+            --theme=$SHOPIFY_THEME_ID
 
       - name: Deploy Live Theme
         if: github.ref == 'refs/heads/main'
@@ -39,5 +38,4 @@ jobs:
           shopify theme push \
             --store=$SHOPIFY_STORE \
             --password=$SHOPIFY_PASSWORD \
-            --live \
-            --no-interaction
+            --live
