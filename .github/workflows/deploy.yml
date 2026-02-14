@@ -34,9 +34,9 @@ jobs:
         env:
           SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
           SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
+          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_LIVE_THEME_ID }}
         run: |
           shopify theme push \
             --store=$SHOPIFY_STORE \
             --password=$SHOPIFY_PASSWORD \
-            --live
-            --force
+            --theme=$SHOPIFY_THEME_ID
