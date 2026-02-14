@@ -11,23 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli @shopify/theme
 
       - name: Deploy Dev Theme
         if: github.ref == 'refs/heads/dev'
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
+          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_DEV_THEME_ID }}
         run: |
           shopify theme push \
-            --store ${{ secrets.SHOPIFY_STORE }} \
-            --password ${{ secrets.SHOPIFY_PASSWORD }} \
-            --theme ${{ secrets.SHOPIFY_DEV_THEME_ID }}
+            --store=$SHOPIFY_STORE \
+            --password=$SHOPIFY_PASSWORD \
+            --theme=$SHOPIFY_THEME_ID \
+            --no-interaction
 
       - name: Deploy Live Theme
         if: github.ref == 'refs/heads/main'
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
         run: |
           shopify theme push \
-            --store ${{ secrets.SHOPIFY_STORE }} \
-            --password ${{ secrets.SHOPIFY_PASSWORD }} \
-            --live
+            --store=$SHOPIFY_STORE \
+            --password=$SHOPIFY_PASSWORD \
+            --live \
+            --no-interaction
