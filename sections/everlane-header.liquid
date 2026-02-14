@@ -1,0 +1,89 @@
+{{ 'everlane-header.css' | asset_url | stylesheet_tag }}
+{{ 'secondary-nav.css' | asset_url | stylesheet_tag }}
+
+<header class="everlane-header" role="banner">
+  <div class="everlane-header__sticky">
+
+    <!-- ROW 1: PRIMARY HEADER -->
+    <div class="everlane-header__top">
+      
+      <!-- LEFT: Primary Nav -->
+      <nav class="everlane-header__primary-nav" aria-label="Primary">
+        <ul class="everlane-header__primary">
+        {% for link in linklists['main-menu-custom'].links %}
+          <li>
+            <a
+              href="{{ link.url }}"
+              class="{% if link.current %}is-active{% endif %}"
+            >
+              {{ link.title }}
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+      </nav>
+
+      <!-- CENTER: LOGO -->
+      <a href="{{ routes.root_url }}" class="everlane-header__logo">
+        {{ shop.name }}
+      </a>
+
+      <!-- RIGHT: ICONS -->
+      <div class="everlane-header__icons">
+        <a href="{{ routes.search_url }}">Search</a>
+        <a href="{{ routes.account_url }}">Account</a>
+        <a href="{{ routes.cart_url }}">Bag</a>
+      </div>
+
+    </div>
+
+    <!-- ROW 2: SECONDARY NAV -->
+      {% assign current_menu = nil %}
+
+      {% for link in linklists['main-menu-custom'].links %}
+        {% if link.current %}
+          {% assign menu_handle = link.title | downcase | append: '-secondary-menu' %}
+          {% assign current_menu = linklists[menu_handle] %}
+        {% endif %}
+      {% endfor %}
+
+      {% if request.page_type == 'index' %}
+        {% assign current_menu = linklists['women-secondary-menu'] %}
+      {% endif %}
+
+
+
+    {% if request.page_type == 'index' %}
+      {% assign current_menu = linklists['women-secondary-menu'] %}
+    {% endif %}
+
+    {% if current_menu %}
+      <nav class="secondary-nav" aria-label="Secondary navigation">
+        <div class="secondary-nav__inner">
+          <ul class="secondary-nav__menu">
+            {% for link in current_menu.links %}
+              <li>
+                <a
+                  href="{{ link.url }}"
+                  class="secondary-nav__link
+                        {% if link.current %} is-active{% endif %}
+                        {% if link.title == 'Sale' %} sale{% endif %}"
+                >
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </nav>
+      {% endif %}
+
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Everlane Header"
+}
+{% endschema %}

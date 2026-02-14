@@ -1,0 +1,85 @@
+.announcement-slider {
+  width: 100%;
+  background: #c6c1b6;
+  text-align: center;
+  overflow: hidden;
+  font-family: "Maison Neue Book", sans-serif;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+}
+
+/* Announcement Slider Base */
+.announcement-slider__inner {
+  position: relative;
+  height: 30px;
+  overflow: hidden;
+}
+
+.announcement-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.announcement-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.announcement-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+/* Incoming */
+.slide-in-left .announcement-content {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-in-right .announcement-content {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Active */
+.is-active .announcement-content {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Outgoing */
+.slide-out-left .announcement-content {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-out-right .announcement-content {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.announcement-text {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.announcement-link {
+  text-decoration: underline;
+  font-weight: 600;
+  color: inherit;
+}
+
+.announcement-arrow {
+  margin: 0 0.25rem;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 400px;
+}

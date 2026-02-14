@@ -1,0 +1,138 @@
+/* =========================
+   EVERLANE STICKY HEADER
+   ========================= */
+
+.everlane-header {
+  position: relative;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  margin: 0;
+}
+
+.everlane-header__sticky {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+/* ROW 1 */
+.everlane-header__top {
+  display: grid;
+  grid-template-columns:auto 1fr auto;
+  align-items: center;
+}
+
+.everlane-header__primary-nav{
+  padding: 0 1.5rem;
+}
+
+/* LEFT */
+.everlane-header__primary {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.everlane-header__primary a {
+  font-size: 1.2rem !important;
+  font-weight: 400;
+  font-family: Poppins, sans-serif;
+  letter-spacing: .024rem;
+  text-transform: uppercase;
+  color: #111;
+  position: relative;
+  text-decoration: none;
+}
+
+.everlane-header__primary a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.everlane-header__primary a.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.everlane-header__primary a:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* CENTER */
+.everlane-header__logo {
+  cursor: pointer;
+  justify-self: center;
+  margin-right: 100px;
+  font-size: 20px;
+  font-family: "Maison Neue Book", sans-serif;
+  letter-spacing: .024rem;
+  text-decoration: none;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: 0.24rem;
+}
+
+/* RIGHT */
+.everlane-header__icons {
+  display: flex;
+  gap: 1.5rem;
+  font-family: Poppins, sans-serif;
+  letter-spacing: .024rem;
+  text-transform: uppercase;
+  padding: 0 1.5rem;
+}
+
+.everlane-header__icons a{
+  font-size: 1.2rem !important;
+  font-weight: 400;
+  font-family: Poppins, sans-serif;
+  letter-spacing: .024rem;
+  text-transform: uppercase;
+  color: #111;
+  position: relative;
+  text-decoration: none;
+}
+
+.everlane-header__icons a::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.everlane-header__icons a:hover::after{
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.shopify-section-group-header-group header,
+.shopify-section-group-header-group nav {
+  position: static !important;
+}
