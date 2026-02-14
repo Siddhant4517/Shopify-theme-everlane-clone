@@ -40,3 +40,5 @@ jobs:
             --store=$SHOPIFY_STORE \
             --password=$SHOPIFY_PASSWORD \
             --theme=$SHOPIFY_THEME_ID
+            --allow-live
+
