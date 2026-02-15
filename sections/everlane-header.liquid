@@ -1,5 +1,6 @@
 {{ 'everlane-header.css' | asset_url | stylesheet_tag }}
 {{ 'secondary-nav.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mega-menu.js' | asset_url }}" defer></script>
 
 <header class="everlane-header" role="banner">
   <div class="everlane-header__sticky">
@@ -62,7 +63,7 @@
         <div class="secondary-nav__inner">
           <ul class="secondary-nav__menu">
             {% for link in current_menu.links %}
-              <li>
+              <li class="secondary-nav__item" data-mega="{{ link.title | handle }}">
                 <a
                   href="{{ link.url }}"
                   class="secondary-nav__link
@@ -77,8 +78,58 @@
         </div>
       </nav>
       {% endif %}
+      <!-- SINGLE MEGA MENU PANEL -->
+<div class="mega-menu">
+  <div class="mega-menu__inner page-width">
 
+    {% assign active_primary = nil %}
 
+    {% for primary in linklists['main-menu-custom'].links %}
+      {% if primary.current %}
+        {% assign active_primary = primary.title | handle %}
+      {% endif %}
+    {% endfor %}
+
+    {% if request.page_type == 'index' %}
+      {% assign active_primary = 'women' %}
+    {% endif %}
+
+    {% for link in current_menu.links %}
+      {% assign secondary_handle = link.title | handle %}
+      {% assign mega_handle = active_primary | append: '-' | append: secondary_handle | append: '-mega' %}
+      {% assign mega_menu = linklists[mega_handle] %}
+
+      {% if mega_menu and mega_menu.links.size > 0 %}
+        <div class="mega-panel" data-panel="{{ secondary_handle }}">
+          
+          {% for column in mega_menu.links %}
+            <div class="mega-menu__column">
+              <h4>{{ column.title }}</h4>
+
+              {% for sublink in column.links %}
+                <a href="{{ sublink.url }}">
+                  {{ sublink.title }}
+                </a>
+              {% endfor %}
+            </div>
+          {% endfor %}
+
+          <div class="mega-menu__image">
+            <img 
+              src="{{ 'everlane-megamenu.jpg' | asset_url }}"
+              width="180"
+              height="180"
+              alt="Shop Collection"
+            >
+            <p>SHOP COLLECTION</p>
+          </div>
+
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</div>
   </div>
 </header>
 

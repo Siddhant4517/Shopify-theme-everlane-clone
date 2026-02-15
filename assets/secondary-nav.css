@@ -3,7 +3,7 @@
    ========================= */
 
 .secondary-nav {
-  position: sticky;
+  position: relative;
   top: var(--header-height, 64px);
   z-index: 20;
   background-color: #ffffff;
@@ -104,4 +104,56 @@
 
 .secondary-nav__link.is-active::after {
   transform: scaleX(1);
+}
+/* FULL WIDTH MEGA MENU */
+.mega-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+
+  display: none;
+  z-index: 999;
+}
+
+/* show when header hovered */
+.secondary-nav:hover + .mega-menu {
+  display: block;
+}
+
+.mega-menu__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 260px 260px 1fr;
+  gap: 60px;
+}
+
+.mega-menu__column h4 {
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.mega-menu__column a {
+  display: block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #111;
+}
+
+.mega-menu__column a:hover {
+  text-decoration: underline;
+}
+
+.mega-menu__image img {
+  width: 220px;
+}
+
+.mega-menu:hover {
+  display: block;
 }
