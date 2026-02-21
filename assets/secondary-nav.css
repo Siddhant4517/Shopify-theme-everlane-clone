@@ -3,7 +3,7 @@
    ========================= */
 
 .secondary-nav {
-  position: sticky;
+  position: relative;
   top: var(--header-height, 64px);
   z-index: 20;
   background-color: #ffffff;
@@ -104,4 +104,127 @@
 
 .secondary-nav__link.is-active::after {
   transform: scaleX(1);
+}
+/* FULL WIDTH MEGA MENU */
+.mega-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+
+  display: none;
+  z-index: 999;
+}
+
+/* show when header hovered */
+.secondary-nav:hover + .mega-menu {
+  display: block;
+}
+/* =========================
+   MEGA MENU WRAPPER
+   ========================= */
+
+.mega-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  z-index: 999;
+  display: none;
+}
+
+/* Show mega when hovering secondary nav */
+.everlane-header__sticky:hover .mega-menu {
+  display: block;
+}
+
+/* =========================
+   INNER CONTAINER
+   ========================= */
+
+.mega-menu__inner {
+  max-width: 600px;   /* narrower for centered layout */
+  margin: 0 auto;
+  padding: 48px 0 56px;
+  position: relative;
+}
+
+/* =========================
+   PANELS
+   ========================= */
+
+.mega-panel {
+  display: none;
+  align-items: flex-start;
+  gap: 120px;
+}
+
+/* Show correct panel when hovering secondary item */
+.secondary-nav__item:hover ~ .mega-menu .mega-panel {
+  display: none;
+}
+
+/* JS will handle active panel (cleanest method) */
+.mega-panel.is-active {
+  display: flex;
+}
+
+/* =========================
+   COLUMNS
+   ========================= */
+
+.mega-menu__columns {
+  display: flex;
+  gap: 120px;
+}
+
+.mega-menu__column {
+  width: 240px;
+}
+
+.mega-menu__column h4 {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.mega-menu__column a {
+  display: block;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #111;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.mega-menu__column a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   IMAGE COLUMN
+   ========================= */
+
+.mega-menu__image {
+  margin-left: auto;
+  width: 220px;
+}
+
+.mega-menu__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mega-menu__image p {
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
