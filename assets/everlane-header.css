@@ -136,3 +136,7 @@
 .shopify-section-group-header-group nav {
   position: static !important;
 }
+
+.everlane-header__sticky {
+  position: relative;
+}

@@ -1,25 +1,24 @@
 {{ 'everlane-header.css' | asset_url | stylesheet_tag }}
 {{ 'secondary-nav.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mega-menu.js' | asset_url }}" defer></script>
 
 <header class="everlane-header" role="banner">
   <div class="everlane-header__sticky">
-
     <!-- ROW 1: PRIMARY HEADER -->
     <div class="everlane-header__top">
-      
       <!-- LEFT: Primary Nav -->
       <nav class="everlane-header__primary-nav" aria-label="Primary">
         <ul class="everlane-header__primary">
-        {% for link in linklists['main-menu-custom'].links %}
-          <li>
-            <a
-              href="{{ link.url }}"
-              class="{% if link.current %}is-active{% endif %}"
-            >
-              {{ link.title }}
-            </a>
-          </li>
-        {% endfor %}
+          {% for link in linklists['main-menu-custom'].links %}
+            <li>
+              <a
+                href="{{ link.url }}"
+                class="{% if link.current %}is-active{% endif %}"
+              >
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </nav>
 
@@ -34,24 +33,21 @@
         <a href="{{ routes.account_url }}">Account</a>
         <a href="{{ routes.cart_url }}">Bag</a>
       </div>
-
     </div>
 
     <!-- ROW 2: SECONDARY NAV -->
-      {% assign current_menu = nil %}
+    {% assign current_menu = null %}
 
-      {% for link in linklists['main-menu-custom'].links %}
-        {% if link.current %}
-          {% assign menu_handle = link.title | downcase | append: '-secondary-menu' %}
-          {% assign current_menu = linklists[menu_handle] %}
-        {% endif %}
-      {% endfor %}
-
-      {% if request.page_type == 'index' %}
-        {% assign current_menu = linklists['women-secondary-menu'] %}
+    {% for link in linklists['main-menu-custom'].links %}
+      {% if link.current %}
+        {% assign menu_handle = link.title | downcase | append: '-secondary-menu' %}
+        {% assign current_menu = linklists[menu_handle] %}
       {% endif %}
+    {% endfor %}
 
-
+    {% if request.page_type == 'index' %}
+      {% assign current_menu = linklists['women-secondary-menu'] %}
+    {% endif %}
 
     {% if request.page_type == 'index' %}
       {% assign current_menu = linklists['women-secondary-menu'] %}
@@ -62,12 +58,14 @@
         <div class="secondary-nav__inner">
           <ul class="secondary-nav__menu">
             {% for link in current_menu.links %}
-              <li>
+              <li class="secondary-nav__item" data-mega="{{ link.title | handle }}">
                 <a
                   href="{{ link.url }}"
-                  class="secondary-nav__link
-                        {% if link.current %} is-active{% endif %}
-                        {% if link.title == 'Sale' %} sale{% endif %}"
+                  class="
+                    secondary-nav__link
+                    {% if link.current %} is-active{% endif %}
+                    {% if link.title == 'Sale' %} sale{% endif %}
+                  "
                 >
                   {{ link.title }}
                 </a>
@@ -76,14 +74,112 @@
           </ul>
         </div>
       </nav>
+    {% endif %}
+
+    {% assign active_primary = null %}
+
+    {% for primary in linklists['main-menu-custom'].links %}
+      {% if primary.current %}
+        {% assign active_primary = primary.title | handle %}
       {% endif %}
+    {% endfor %}
 
+    {% if active_primary == null %}
+      {% assign active_primary = linklists['main-menu-custom'].links.first.title | handle %}
+    {% endif %}
 
+    <div class="mega-menu">
+      <div class="mega-menu__inner">
+        {% for link in current_menu.links %}
+          {% assign secondary_slug = link.title | handle %}
+          {% assign mega_handle = active_primary | append: '-' | append: secondary_slug | append: '-mega-menu' %}
+          {% assign mega_menu = linklists[mega_handle] %}
+
+          {% if mega_menu and mega_menu.links.size > 0 %}
+            <div class="mega-panel" data-panel="{{ secondary_slug }}">
+              <div class="mega-menu__columns">
+                  {% assign image_url = '' %}
+
+                  <!-- FIRST PASS: find image -->
+                  {% for column in mega_menu.links %}
+                    {% assign column_title = column.title | downcase | strip %}
+                    {% if column_title contains 'image' %}
+                      {% assign image_url = column.url %}
+                    {% endif %}
+                  {% endfor %}
+
+                  <!-- SECOND PASS: render columns -->
+                  <div class="mega-menu__columns">
+                    {% for column in mega_menu.links %}
+                      {% assign column_title = column.title | downcase | strip %}
+
+                      {% unless column_title contains 'image' %}
+                        <div class="mega-menu__column">
+                          <h4>{{ column.title }}</h4>
+
+                          {% for sublink in column.links %}
+                            <a href="{{ sublink.url }}">{{ sublink.title }}</a>
+                          {% endfor %}
+                        </div>
+                      {% endunless %}
+                    {% endfor %}
+                  </div>
+
+                  <!-- IMAGE -->
+                  {% if image_url != blank %}
+                    <div class="mega-menu__image">
+                      <img src="{{ image_url }}" alt="Mega image">
+                    </div>
+                  {% endif %}
+
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </header>
 
 {% schema %}
 {
-  "name": "Everlane Header"
+  "name": "Everlane Header",
+  "blocks": [
+    {
+      "type": "menu_column",
+      "name": "Mega menu column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Featured"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "mega_image",
+      "name": "Mega menu image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "SHOP COLLECTION"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
 }
 {% endschema %}
